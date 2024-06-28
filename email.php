@@ -1,28 +1,31 @@
+<h1><strong>Mensagem enviada</strong></h1>
+
+
+
+
 <?php
+    //mostrar na tela o array do formulario
+    //print_r($_POST);
 
-if(isset($_POST['email']) && !empty($_POST['email'])) {
+    $nome = $_POST["nome"] ?? NULL;
+    $email = $_POST["email"] ?? NULL;
+    $mensagem = $_POST["mensagem"] ?? NULL;
 
-$nome = addslashes($_POST['nome']);    
-$email = addslashes($_POST['email']);
-$mensagem = addslashes($_POST['mensagem']);
+    //funcao chamada msg que passa uma $msg
+    function mensagem($msg)
+    {
+    echo "<script>alert('{$msg}');history.back();</script>";
+    }
 
-$to = "paulo_efr@outlook.com";
-$subject = "Contato - OnSET";
+    if (empty($nome)) {
+    mensagem("Preencha o seu nome");
+    } else if (empty($mensagem)) {
+    mensagem("Digite sua mensagem");
+    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    mensagem("E-mail inválido");
+    }
 
-$body = "Nome: ".$nome. "\n".
-        "Email: ".$email. "\n".
-        "Mensagem: ".$mensagem; 
-
-$header = "From: pauloffr1@gmail.com"."\n"
-        ."Reply-to: ".$email."\n"
-        ."X=Mailer:PHP/". phpversion();
-
-if(mail($to,$subject,$body,$header)){
-    echo("E-mail enviado com sucesso!");
-}else{
-    echo ("Houve um erro ao enviar o email!");
-}
-
-}
-
+    echo "<p>Nome: {$nome}<br>
+            E-mail: {$email}<br>
+            Mensagem: {$mensagem}</p>";
 ?>
